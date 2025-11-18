@@ -7,6 +7,8 @@ from models.user import User
 from controllers.cupcake import seed_cupcakes
 from routes.auth import auth_ns
 from routes.cupcake import cupcake_ns
+from routes.user import user_ns
+from controllers.user import create_admin_user
 from routes.register import register_ns
 
 app = Flask(__name__)
@@ -23,7 +25,8 @@ session = session_local()
 try:
     if not session.query(User).filter_by(username='test').first():
         from models.user import User
-        user = User(username='test', password_hash=User.hash_password('password'))
+        user = User(username='test', password_hash=User.hash_password('password'),
+                     cep='31260-000', street='Rua Teste', number=123, complement='Apto 1', city='Pouso Alegre')
         session.add(user)
         session.commit()
 finally:
@@ -34,6 +37,10 @@ seed_cupcakes()
 api.add_namespace(auth_ns, path='/api/auth')
 api.add_namespace(cupcake_ns, path='/api/cupcakes')
 api.add_namespace(register_ns, path='/api/auth/register')
+api.add_namespace(user_ns, path='/api/users')
+
+# Seed admin user
+create_admin_user()
 
 # Hello namespace (test endpoint)
 hello_ns = Namespace('hello', description='Hello endpoints')

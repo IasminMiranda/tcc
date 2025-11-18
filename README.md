@@ -64,6 +64,11 @@ npm run dev
 - **Username**: `test`
 - **Password**: `password`
 
+## Credenciais de Administrador
+
+- **Username**: `admin`
+- **Password**: `admin123` 
+
 ## Endpoints
 
 | Método | URL | Descrição |
@@ -88,7 +93,5 @@ npm run dev
 - SQLite (local)
 
 ## Desenvolvimento
-
-As imagens dos cupcakes são carregadas do **Unsplash** (URLs públicas). Se preferir usar bucket próprio (AWS S3, Google Cloud Storage), posso configurar.
 
 Dados são mantidos em `backend/data.db` (SQLite local) — nenhum banco externo requerido.

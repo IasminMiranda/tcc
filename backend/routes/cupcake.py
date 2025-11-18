@@ -1,5 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from controllers.cupcake import get_top_selling_cupcakes
+from models.cupcake import Cupcake
 
 cupcake_ns = Namespace('cupcakes', description='Cupcake endpoints')
 
@@ -12,6 +13,18 @@ cupcake_model = cupcake_ns.model('Cupcake', {
     'sales_count': fields.Integer,
     'stock': fields.Integer
 })
+
+@cupcake_ns.route('/')
+class AllCupcakes(Resource):
+    @cupcake_ns.marshal_list_with(cupcake_model)
+    def get(self):
+        from models import SessionLocal
+        session = SessionLocal()
+        try:
+            cupcakes = session.query(Cupcake).all()
+            return cupcakes
+        finally:
+            session.close()
 
 @cupcake_ns.route('/<int:cupcake_id>/reduce-stock')
 class ReduceStock(Resource):

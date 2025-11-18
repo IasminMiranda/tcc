@@ -19,6 +19,11 @@ export default function Login() {
   const [registerOpen, setRegisterOpen] = useState(false)
   const [regUser, setRegUser] = useState('')
   const [regPass, setRegPass] = useState('')
+  const [regCep, setRegCep] = useState('')
+  const [regStreet, setRegStreet] = useState('')
+  const [regNumber, setRegNumber] = useState('')
+  const [regComplement, setRegComplement] = useState('')
+  const [regCity, setRegCity] = useState('')
   const [regMsg, setRegMsg] = useState('')
   const [successSnack, setSuccessSnack] = useState(false)
   const navigate = useNavigate()
@@ -55,7 +60,7 @@ export default function Login() {
   }
 
   async function handleRegister() {
-    if (!regUser || !regPass) {
+    if (!regUser || !regPass || !regCep || !regStreet || !regNumber || !regCity) {
       setRegMsg('Preencha todos os campos')
       return
     }
@@ -68,7 +73,7 @@ export default function Login() {
       const res = await fetch('http://localhost:5000/api/auth/register/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: regUser, password: regPass })
+        body: JSON.stringify({ username: regUser, password: regPass, cep: regCep, street: regStreet, number: regNumber, complement: regComplement, city: regCity})
       })
       const json = await res.json()
       if (!res.ok) {
@@ -81,6 +86,11 @@ export default function Login() {
         setRegisterOpen(false)
         setRegUser('')
         setRegPass('')
+        setRegCep('')
+        setRegStreet('')
+        setRegNumber('')
+        setRegComplement('')
+        setRegCity('')
         setRegMsg('')
         navigate('/')
       }, 1500)
@@ -145,6 +155,46 @@ export default function Login() {
             type="password"
             value={regPass}
             onChange={e => setRegPass(e.target.value)}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="CEP"
+            value={regCep}
+            onChange={e => setRegCep(e.target.value)}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Rua"
+            value={regStreet}
+            onChange={e => setRegStreet(e.target.value)}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Número"
+            value={regNumber}
+            onChange={e => setRegNumber(e.target.value)}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Complemento"
+            value={regComplement}
+            onChange={e => setRegComplement(e.target.value)}
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            label="Cidade"
+            value={regCity}
+            onChange={e => setRegCity(e.target.value)}
             fullWidth
             margin="normal"
             required
